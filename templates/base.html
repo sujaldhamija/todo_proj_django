@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}To-Do{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 2rem auto;
+            font-family: system-ui, sans-serif
+        }
+
+        header, footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        a.button, button {
+            padding: .45rem .7rem;
+            border: 1px solid #ddd;
+            border-radius: .5rem;
+            background: #f7f7f7;
+            text-decoration: none
+        }
+
+        ul {
+            padding-left: 1rem
+        }
+
+        li {
+            margin: .4rem 0
+        }
+
+        .done {
+            opacity: .6;
+            text-decoration: line-through
+        }
+
+        form.inline {
+            display: inline
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h2><a href="{% url 'tasks:list' %}" style="color:inherit;text-decoration:none">To-Do</a></h2>
+    <a class="button" href="{% url 'tasks:create' %}">+ New</a>
+</header>
+<hr/>
+{% block content %}{% endblock %}
+<hr/>
+<footer><small>Django • MySQL</small></footer>
+</body>
+</html>
