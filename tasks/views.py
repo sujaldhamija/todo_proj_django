@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Task
 from django.urls import reverse_lazy
+from django.contrib.auth import logout
 
 
 # Create your views here.
@@ -58,3 +60,11 @@ def toggle_done(request, pk):
     task.is_done = not task.is_done
     task.save()
     return redirect('tasks:list')
+
+
+@login_required
+def logout_confirm(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect("login")
+    return render(request, "registration/logout_confirm.html")

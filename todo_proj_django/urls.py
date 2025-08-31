@@ -21,6 +21,8 @@ from django.urls import path, include
 from django.views import View
 from django.contrib.auth import views as auth_views, login
 
+from tasks.views import logout_confirm
+
 
 class SignUpView(View):
     def get(self, request):
@@ -42,7 +44,7 @@ urlpatterns = [
     # Authentication
     path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', logout_confirm, name='logout'),
 
     path("", include("tasks.urls"))
 ]
