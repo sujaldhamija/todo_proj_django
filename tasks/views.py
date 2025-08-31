@@ -15,7 +15,11 @@ class TaskList(LoginRequiredMixin, ListView):
     paginate_by = 2
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+        qs = Task.objects.filter(user=self.request.user)
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            qs = qs.filter(title__icontains=q)
+        return qs
 
 
 class TaskCreate(LoginRequiredMixin, CreateView):
