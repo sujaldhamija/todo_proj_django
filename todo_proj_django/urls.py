@@ -15,9 +15,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 from django.urls import path, include
+from django.views import View
+from django.contrib.auth import views as auth_views, login
+
+
+class SignUpView(View):
+    def get(self, request):
+        form = UserCreationForm()
+        return render(request, "registration/signup.html", {"form": form})
+
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("tasks:list")
+        return render(request, "registration/signup.html", {"form": form})
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Authentication
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('signup/', SignUpView.as_view(), name='signup'),
+
     path("", include("tasks.urls"))
 ]
